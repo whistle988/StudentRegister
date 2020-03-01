@@ -46,11 +46,12 @@ class MainActivity : AppCompatActivity() {
         handlers = MainActivityClickHandlers(this)
         activityMainBinding!!.clickHandler = handlers
 
-        rvStudents.layoutManager = rvStudents.layoutManager
-        rvStudents.setHasFixedSize(true)
+        val recyclerView = activityMainBinding!!.layoutContentMain.rvStudents
+        recyclerView.layoutManager = recyclerView.layoutManager
+        recyclerView.setHasFixedSize(true)
 
         studentDataAdapter = StudentDataAdapter()
-        rvStudents.adapter = studentDataAdapter
+        recyclerView.adapter = studentDataAdapter
 
         studentAppDatabase = Room.databaseBuilder(applicationContext, StudentAppDataBase::class.java, "StudentDB").build()
 
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                 val studentToDelete = students!![viewHolder.getAdapterPosition()]
                 deleteStudent(studentToDelete)
             }
-        }).attachToRecyclerView(rvStudents)
+        }).attachToRecyclerView(recyclerView)
 
 
         /*val fab: FloatingActionButton = findViewById(R.id.fab) as FloatingActionButton

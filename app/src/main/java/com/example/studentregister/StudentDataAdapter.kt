@@ -4,7 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.NonNull
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.studentregister.databinding.StudentListItemBinding
 import kotlinx.android.synthetic.main.student_list_item.view.*
 import java.util.*
 
@@ -13,17 +16,23 @@ class StudentDataAdapter : RecyclerView.Adapter<StudentDataAdapter.StudentViewHo
     private var students: ArrayList<Student>? = null
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): StudentViewHolder {
-        val itemView = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.student_list_item, viewGroup, false)
-        return StudentViewHolder(itemView)
+
+        val studentListItemBinding: StudentListItemBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(viewGroup.context),
+            R.layout.student_list_item, viewGroup, false)
+
+        return StudentViewHolder(studentListItemBinding)
     }
 
     override fun onBindViewHolder(studentViewHolder: StudentViewHolder, i: Int) {
         val currentStudent = students!![i]
-        studentViewHolder.name.text = currentStudent.name
+
+        studentViewHolder.studentListItemBinding!!.student = currentStudent
+
+        /*studentViewHolder.name.text = currentStudent.name
         studentViewHolder.email.text = currentStudent.email
         studentViewHolder.country.text = currentStudent.country
-        studentViewHolder.date.text = currentStudent.registeredTime
+        studentViewHolder.date.text = currentStudent.registeredTime*/
     }
 
     override fun getItemCount(): Int {
@@ -38,11 +47,19 @@ class StudentDataAdapter : RecyclerView.Adapter<StudentDataAdapter.StudentViewHo
         notifyDataSetChanged()
     }
 
-    inner class StudentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val name: TextView = itemView.tvName
+    inner class StudentViewHolder(@NonNull studentListItemBinding : StudentListItemBinding)
+        : RecyclerView.ViewHolder(studentListItemBinding.root) {
+
+        var studentListItemBinding : StudentListItemBinding? = null
+
+        init {
+            this.studentListItemBinding = studentListItemBinding
+        }
+
+        /*val name: TextView = itemView.tvName
         val email: TextView = itemView.tvEmail
         val country: TextView = itemView.tvCountry
-        val date: TextView = itemView.tvTime
+        val date: TextView = itemView.tvTime*/
 
 
     }
